@@ -1,0 +1,390 @@
+body {
+  font-family: "Segoe UI", sans-serif;
+  background: #eaf4f4;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.container {
+  background: #ffffff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 700px;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 25px;
+  color: #222;
+}
+
+.tabs {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.tab {
+  padding: 10px;
+  background: #d3e0ea;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  flex: 1;
+  margin: 0 5px;
+  font-weight: bold;
+  color: #444;
+  transition: all 0.3s ease;
+}
+
+.tab.active {
+  background: #2b7a78;
+  color: white;
+}
+
+.tab-content {
+  display: block;
+}
+
+.hidden {
+  display: none;
+}
+
+form label {
+  display: block;
+  margin: 10px 0 5px;
+  color: #333;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px 20px;
+}
+
+input[type="number"],
+select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  margin-top: 5px;
+}
+
+.button-group {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+
+button[type="submit"],
+button[type="button"],
+#export-pdf {
+  background-color: #3aafa9;
+  color: white;
+  padding: 10px 25px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+button[type="button"]:hover,
+button[type="submit"]:hover,
+#export-pdf:hover {
+  background-color: #2b7a78;
+}
+
+.result-slide {
+  background: #f7fbfc;
+  padding: 30px;
+  border-radius: 10px;
+  margin-top: 20px;
+}
+
+.regime-tabs {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  font-weight: bold;
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+}
+.regime-tabs .tab {
+  cursor: pointer;
+  color: #555;
+}
+.regime-tabs .tab.active {
+  color: #0077b6;
+  border-bottom: 2px solid #0077b6;
+}
+.recommended-tag {
+  background-color: #c4f5d8;
+  color: #008f5d;
+  padding: 4px 8px;
+  border-radius: 5px;
+  font-size: 0.8rem;
+}
+
+.result-section {
+  display: flex;
+  justify-content: space-between;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+
+.chart-section {
+  flex: 3;
+  min-width: 600px;
+}
+
+.container {
+  margin-right: 20px; /* Push the main container right to make room for sidebar */
+}
+
+.legend {
+  display: flex;
+  gap: 15px;
+  margin-top: 10px;
+}
+.legend-box {
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  margin-right: 5px;
+  border-radius: 3px;
+}
+.total {
+  background-color: #b3e5fc;
+}
+.deduction {
+  background-color: #1f77b4;
+}
+.taxable {
+  background-color: #ffd180;
+}
+.payable {
+  background-color: #81c784;
+}
+
+.summary-section {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  background: #e8f1f5;
+  padding: 15px;
+  border-radius: 10px;
+}
+.summary-section .box {
+  background: white;
+  padding: 10px 15px;
+  border-radius: 10px;
+}
+.summary-section .box h4 {
+  margin: 0;
+  font-size: 1rem;
+  color: #2c3e50;
+}
+.summary-section .box p {
+  font-weight: bold;
+  font-size: 1.2rem;
+  margin-top: 5px;
+}
+
+.suggestion-box {
+  margin-top: 20px;
+  padding: 15px;
+  background: #101112;
+  border-left: 2px solid #1f7961;
+  border-radius: 2px;
+  white-space: pre-line;
+}
+
+.result {
+  margin-top: 20px;
+  background: #f1f1f1;
+  padding: 15px;
+  border-radius: 6px;
+  color: #333;
+  font-weight: bold;
+  text-align: center;
+}
+
+body {
+  font-family: "Segoe UI", sans-serif;
+  margin: 0;
+  padding: 0;
+}
+/* Floating icon */
+#chatbot-icon {
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  background-color: #0b5ed7;
+  color: white;
+  border-radius: 50%;
+  padding: 15px;
+  font-size: 24px;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  z-index: 1000;
+}
+/* Chat popup */
+#chat-container {
+  position: fixed;
+  bottom: 90px;
+  right: 25px;
+  width: 300px;
+  height: 400px;
+  background: rgb(234, 228, 228);
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  z-index: 1000;
+}
+/* Hidden class */
+.hidden {
+  display: none;
+}
+/* Header */
+#chat-header {
+  background-color: #0b5ed7;
+  color: white;
+  padding: 12px 16px;
+  font-weight: bold;
+}
+/* Chat messages */
+#chat-box {
+  flex: 1;
+  padding: 12px;
+  overflow-y: auto;
+  background-color: #f5f7fa;
+}
+#chat-box div {
+  margin-bottom: 10px;
+  line-height: 1.4;
+}
+.bot-message {
+  background: #c8d8ed;
+  padding: 8px;
+  border-radius: 10px;
+  max-width: fit-content;
+  margin-right: auto;
+  font-size: medium;
+  text-wrap: break-word;
+  text-align: left;
+}
+.user-message {
+  background: #b7d5c8;
+  padding: 10px;
+  border-radius: 10px;
+  max-width: fit-content;
+  margin-left: auto;
+  font-size: medium;
+  text-wrap: break-word;
+  text-align: right;
+}
+/* Input area */
+#chat-input-area {
+  display: flex;
+  border-top: 1px solid #ddd;
+}
+
+#user-input {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  outline: none;
+}
+
+#chat-input-area button {
+  padding: 10px 15px;
+  border: none;
+  background-color: #0b5ed7;
+  color: white;
+  cursor: pointer;
+}
+#chat-container {
+  transition: all 0.3s ease;
+  transform: scale(1);
+  opacity: 1;
+}
+
+#chat-container.hidden {
+  transform: scale(0.95);
+  opacity: 0;
+  pointer-events: none;
+}
+.suggestion-container {
+  background-color: #f0f4ff;
+  padding: 8px;
+  border-radius: 10px;
+  margin: 8px;
+  text-align: center;
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+.suggestion-container p {
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: #333;
+}
+
+.suggestion-container button {
+  background-color: #e0ecff;
+  border: none;
+  color: #1a73e8;
+  padding: 6px 10px;
+  margin: 4px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s;
+}
+
+.suggestion-container button:hover {
+  background-color: #d4e4ff;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.suggestion-btn {
+  margin: 8px 5px;
+  padding: 10px 14px;
+  border: none;
+  background: #e0e7ff;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 500;
+}
+.suggestion-btn:hover {
+  background: #c7d2fe;
+}
+.bot-message ul {
+  padding-left: 15px;
+  margin: 8px 0;
+}
+
+.bot-message li {
+  margin-bottom: 5px;
+}
+
+.bot-message p {
+  margin: 5px 0;
+  line-height: 1.4;
+}

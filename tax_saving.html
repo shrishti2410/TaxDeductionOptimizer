@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Smart Tax Planner</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: "Poppins", sans-serif;
+        background: linear-gradient(to right, #e0f7fa, #e1f5fe);
+        margin: 0;
+        padding: 20px;
+        color: #333;
+      }
+
+      h1 {
+        text-align: center;
+        color: #00796b;
+      }
+
+      .input-section {
+        max-width: 600px;
+        margin: 20px auto;
+        background: #ffffff;
+        padding: 20px;
+        border-radius: 15px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      }
+
+      .input-section label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 600;
+      }
+
+      .input-section input,
+      .input-section select {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 20px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        font-size: 16px;
+      }
+
+      .input-section button {
+        background-color: #00796b;
+        color: white;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 12px;
+        font-size: 16px;
+        cursor: pointer;
+      }
+
+      .planner-result {
+        max-width: 1100px;
+        margin: 30px auto;
+      }
+
+      .card {
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        margin-bottom: 20px;
+        transition: transform 0.3s ease;
+      }
+
+      .card:hover {
+        transform: translateY(-5px);
+      }
+
+      .card h2 {
+        margin-top: 0;
+        color: #00695c;
+      }
+
+      .details p {
+        margin: 5px 0;
+        font-size: 14px;
+      }
+
+      .tag {
+        display: inline-block;
+        padding: 4px 8px;
+        border-radius: 12px;
+        font-size: 12px;
+        font-weight: 600;
+        color: white;
+      }
+
+      .tag.Low {
+        background-color: #4db6ac;
+      }
+      .tag.Moderate {
+        background-color: #ffa000;
+      }
+      .tag.High {
+        background-color: #e53935;
+      }
+
+      .shortfall {
+        background-color: #fff3e0;
+        color: #e65100;
+        padding: 15px;
+        border-radius: 10px;
+        margin-top: 30px;
+        font-weight: bold;
+      }
+
+      .alt-tip {
+        background-color: #e1f5fe;
+        color: #0277bd;
+        padding: 12px;
+        margin-top: 10px;
+        border-left: 5px solid #03a9f4;
+        border-radius: 10px;
+        font-size: 14px;
+      }
+      .back-button {
+        position: absolute;
+        top: 20px;
+        left: 30px;
+        background-color: #ffffff;
+        color: #216069;
+        border: 2px solid #10616e;
+        border-radius: 8px;
+        padding: 8px 14px;
+        font-size: 14px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.3s ease;
+        z-index: 999;
+      }
+
+      .back-button:hover {
+        background-color: #247681;
+        color: #fff;
+      }
+    </style>
+  </head>
+  <body>
+    <button class="back-button" onclick="location.href='index.html'">
+      ⬅ Back to Home
+    </button>
+    <h1>💰 Smart Tax Planning Suggestions</h1>
+
+    <div class="input-section">
+      <label for="goal">Enter your tax saving goal (₹):</label>
+      <input type="number" id="goal" placeholder="e.g., 200000" min="10000" />
+
+      <label for="risk">Select your risk tolerance:</label>
+      <select id="risk">
+        <option value="Any">Any</option>
+        <option value="Low">Low</option>
+        <option value="Moderate">Moderate</option>
+        <option value="High">High</option>
+      </select>
+
+      <button onclick="generatePlan()">Plan My Tax</button>
+    </div>
+
+    <div class="planner-result" id="plannerResult"></div>
+
+    <script>
+      const taxSavingOptions = [
+        {
+          name: "PPF",
+          maxDeduction: 150000,
+          lockInYears: 15,
+          risk: "Low",
+          section: "80C",
+          returnRate: 7.1,
+        },
+        {
+          name: "ELSS",
+          maxDeduction: 150000,
+          lockInYears: 3,
+          risk: "High",
+          section: "80C",
+          returnRate: 12,
+        },
+        {
+          name: "NPS",
+          maxDeduction: 50000,
+          lockInYears: 60,
+          risk: "Moderate",
+          section: "80CCD(1B)",
+          returnRate: 8,
+        },
+        {
+          name: "Life Insurance",
+          maxDeduction: 150000,
+          lockInYears: 5,
+          risk: "Low",
+          section: "80C",
+          returnRate: 6,
+        },
+        {
+          name: "Medical Insurance",
+          maxDeduction: 25000,
+          lockInYears: 0,
+          risk: "Low",
+          section: "80D",
+          returnRate: 0,
+        },
+        {
+          name: "Education Loan Interest",
+          maxDeduction: 200000,
+          lockInYears: 8,
+          risk: "Moderate",
+          section: "80E",
+          returnRate: 0,
+        },
+        {
+          name: "Home Loan Interest",
+          maxDeduction: 200000,
+          lockInYears: 10,
+          risk: "Moderate",
+          section: "24(b)",
+          returnRate: 0,
+        },
+      ];
+
+      function getReason(option, riskTolerance) {
+        if (option.returnRate >= 10)
+          return "High returns make it ideal for wealth growth.";
+        if (option.section === "80C")
+          return "Eligible for deduction under Section 80C.";
+        if (option.section === "80D")
+          return "Covers medical expenses with tax benefit.";
+        if (option.section.includes("CCD"))
+          return "Extra deduction benefit under 80CCD(1B).";
+        if (option.section === "80E")
+          return "Great for students repaying education loans.";
+        if (option.section === "24(b)")
+          return "Helps reduce interest burden on home loans.";
+        if (riskTolerance === option.risk)
+          return `Matches your '${option.risk}' risk tolerance.`;
+        return "Balanced option suitable for diversified planning.";
+      }
+
+      function suggestTaxPlan(goalAmount, riskTolerance = "Any") {
+        let suggestions = [];
+        let remaining = goalAmount;
+
+        const filteredOptions = taxSavingOptions
+          .filter(
+            (option) => riskTolerance === "Any" || option.risk === riskTolerance
+          )
+          .sort((a, b) => b.returnRate - a.returnRate);
+
+        for (let option of filteredOptions) {
+          if (remaining <= 0) break;
+
+          const invest = Math.min(option.maxDeduction, remaining);
+          const totalReturn =
+            option.returnRate > 0
+              ? invest * (1 + (option.returnRate / 100) * option.lockInYears)
+              : invest;
+
+          suggestions.push({
+            investment: option.name,
+            amountInvested: invest,
+            section: option.section,
+            risk: option.risk,
+            expectedReturnRate: `${option.returnRate}% p.a.`,
+            expectedValueAtMaturity: `₹${totalReturn.toFixed(2)}`,
+            lockInPeriod: `${option.lockInYears} years`,
+            reasonForSelection: getReason(option, riskTolerance),
+          });
+
+          remaining -= invest;
+        }
+
+        let result = {
+          goalAmount: `₹${goalAmount}`,
+          riskTolerance: riskTolerance,
+          suggestions: suggestions,
+        };
+
+        if (remaining > 0) {
+          result.shortfall = `⚠️ Target not fully met. Shortfall: ₹${remaining}`;
+          result.alternativeTip =
+            "💡 Try increasing your goal, widening your risk tolerance, or considering non-tax-saving investments.";
+        }
+
+        return result;
+      }
+
+      function renderPlan(result) {
+        const container = document.getElementById("plannerResult");
+        container.innerHTML = "";
+
+        result.suggestions.forEach((s) => {
+          container.innerHTML += `
+          <div class="card">
+            <h2>${s.investment} <span class="tag ${s.risk}">${s.risk}</span></h2>
+            <div class="details">
+              <p><strong>Invest:</strong> ₹${s.amountInvested}</p>
+              <p><strong>Section:</strong> ${s.section}</p>
+              <p><strong>Expected Return:</strong> ${s.expectedReturnRate}</p>
+              <p><strong>Lock-in Period:</strong> ${s.lockInPeriod}</p>
+              <p><strong>Value at Maturity:</strong> ${s.expectedValueAtMaturity}</p>
+              <p><strong>Why?</strong> ${s.reasonForSelection}</p>
+            </div>
+          </div>
+        `;
+        });
+
+        if (result.shortfall) {
+          container.innerHTML += `<div class="shortfall">${result.shortfall}</div>`;
+          container.innerHTML += `<div class="alt-tip">${result.alternativeTip}</div>`;
+        }
+      }
+
+      function generatePlan() {
+        const goal = parseInt(document.getElementById("goal").value);
+        const risk = document.getElementById("risk").value;
+
+        if (isNaN(goal) || goal <= 0) {
+          alert("Please enter a valid goal amount.");
+          return;
+        }
+
+        const result = suggestTaxPlan(goal, risk);
+        renderPlan(result);
+      }
+    </script>
+  </body>
+</html>

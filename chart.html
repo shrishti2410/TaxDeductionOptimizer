@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Tax Section Comparison</title>
+    <style>
+      body {
+        font-family: "Segoe UI", sans-serif;
+        background: linear-gradient(to right, #e1f5fe, #e0f7fa);
+        background-size: cover;
+        padding: 30px;
+        margin: 0;
+      }
+
+      h2,
+      h3 {
+        color: #065359;
+        text-align: center;
+        text-shadow: 1px 1px 2px #fff;
+      }
+
+      .compare-container {
+        max-width: 1000px;
+        margin: 40px auto;
+        background: rgba(255, 255, 255, 0.95);
+        padding: 25px;
+        border-radius: 16px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      }
+
+      label,
+      select,
+      button {
+        display: inline-block;
+        margin: 10px;
+        font-size: 14px;
+      }
+
+      select {
+        padding: 6px 10px;
+        border-radius: 5px;
+        border: 1px solid #99ccf6;
+        background: #e3f2fd;
+      }
+
+      button {
+        cursor: pointer;
+        background: #0f7c84;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        padding: 8px 16px;
+        transition: 0.3s;
+      }
+
+      button:hover {
+        background: #46a2a8;
+      }
+
+      .compare-box {
+        background: #f1f8e9;
+        border-left: 6px solid #66bb6a;
+        padding: 20px;
+        border-radius: 8px;
+        margin-top: 20px;
+        font-size: 15px;
+        line-height: 1.6;
+      }
+
+      .chart-area {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 30px;
+        margin-top: 30px;
+        justify-content: center;
+      }
+
+      canvas {
+        background: #ffffff;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        padding: 20px;
+        max-width: 450px;
+      }
+
+      .chart-description {
+        font-size: 14px;
+        text-align: center;
+        margin-top: 10px;
+        color: #333;
+        max-width: 450px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .back-button {
+        position: absolute;
+        top: 20px;
+        left: 30px;
+        background-color: #ffffff;
+        color: #216069;
+        border: 2px solid #10616e;
+        border-radius: 8px;
+        padding: 8px 14px;
+        font-size: 14px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.3s ease;
+        z-index: 999;
+      }
+
+      .back-button:hover {
+        background-color: #247681;
+        color: #fff;
+      }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+  <body>
+    <button class="back-button" onclick="location.href='index.html'">
+      ⬅ Back to Home
+    </button>
+
+    <h2>📊 Tax Section Comparison Tool</h2>
+    <div class="compare-container">
+      <h3>Compare Two Sections Side-by-Side</h3>
+      <label>
+        Section 1:
+        <select id="section1"></select>
+      </label>
+      <label>
+        Section 2:
+        <select id="section2"></select>
+      </label>
+      <button onclick="compareSections()">Compare</button>
+      <div id="compareResult" class="compare-box"></div>
+
+      <div class="chart-area">
+        <div>
+          <canvas id="barChart" height="300"></canvas>
+          <div class="chart-description">
+            🔹 <strong>Maximum Deduction Comparison</strong><br />
+            This bar chart compares the total maximum deductible amount between
+            the two selected tax sections. For example, Section 80C offers
+            ₹1,50,000, while Section 80D offers ₹50,000.
+          </div>
+        </div>
+        <div>
+          <canvas id="donutChart" height="300"></canvas>
+          <div class="chart-description">
+            🔸 <strong>Breakdown of Section 1 Components</strong><br />
+            This doughnut chart visualizes how the deductions in Section 1 are
+            distributed. For instance, Section 80C includes PPF, ELSS, LIC,
+            etc., as seen in colored segments.
+          </div>
+        </div>
+        <div>
+          <canvas id="lineChart" height="300"></canvas>
+          <div class="chart-description">
+            📈 <strong>5-Year Cumulative Tax Savings</strong><br />
+            This line chart projects how much tax you can save over 5 years if
+            the section’s deduction is fully utilized each year. It helps in
+            long-term tax planning.
+          </div>
+        </div>
+        <div>
+          <canvas id="radarChart" height="300"></canvas>
+          <div class="chart-description">
+            🕸️ <strong>Coverage by Benefit Types</strong><br />
+            This radar chart shows how much each section contributes to
+            different categories like Investment, Insurance, Education, and
+            Donation. Great for understanding the nature of benefits.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const sectionData = {
+        "Section 80C": {
+          deduction: 150000,
+          breakdown: {
+            PPF: 40000,
+            ELSS: 30000,
+            "Life Insurance": 25000,
+            "Tuition Fees": 30000,
+            NSC: 25000,
+          },
+          categories: {
+            Investment: 70,
+            Insurance: 20,
+            Education: 10,
+            Donation: 0,
+          },
+          description:
+            "Section 80C offers deductions on investments like PPF, ELSS, and Life Insurance, up to ₹1.5L.",
+        },
+        "Section 80D": {
+          deduction: 50000,
+          breakdown: {
+            "Self + Family": 25000,
+            Parents: 25000,
+          },
+          categories: {
+            Investment: 0,
+            Insurance: 100,
+            Education: 0,
+            Donation: 0,
+          },
+          description:
+            "Section 80D covers health insurance premiums with a deduction of up to ₹50,000.",
+        },
+        "Section 80E": {
+          deduction: 100000,
+          breakdown: {
+            "Education Loan Interest": 100000,
+          },
+          categories: {
+            Investment: 0,
+            Insurance: 0,
+            Education: 100,
+            Donation: 0,
+          },
+          description:
+            "Section 80E allows deduction for interest paid on education loans for higher studies.",
+        },
+        "Section 80CCD(1B)": {
+          deduction: 50000,
+          breakdown: {
+            "NPS Tier I": 50000,
+          },
+          categories: {
+            Investment: 100,
+            Insurance: 0,
+            Education: 0,
+            Donation: 0,
+          },
+          description:
+            "Section 80CCD(1B) offers an additional ₹50,000 deduction for NPS investments.",
+        },
+        "Section 80G": {
+          deduction: 60000,
+          breakdown: {
+            "PM Cares Fund": 30000,
+            CRY: 30000,
+          },
+          categories: {
+            Investment: 0,
+            Insurance: 0,
+            Education: 0,
+            Donation: 100,
+          },
+          description:
+            "Section 80G provides deductions on donations to approved funds and charitable institutions.",
+        },
+        "Standard Deduction": {
+          deduction: 50000,
+          breakdown: {
+            "Fixed Benefit": 50000,
+          },
+          categories: {
+            Investment: 0,
+            Insurance: 0,
+            Education: 0,
+            Donation: 0,
+          },
+          description:
+            "Standard Deduction of ₹50,000 is available for salaried and pensioned individuals.",
+        },
+      };
+
+      const section1 = document.getElementById("section1");
+      const section2 = document.getElementById("section2");
+      const compareResult = document.getElementById("compareResult");
+
+      Object.keys(sectionData).forEach((section) => {
+        [section1, section2].forEach((dropdown) => {
+          const opt = document.createElement("option");
+          opt.value = section;
+          opt.textContent = section;
+          dropdown.appendChild(opt);
+        });
+      });
+
+      let barChart, donutChart, lineChart, radarChart;
+
+      function compareSections() {
+        const s1 = section1.value;
+        const s2 = section2.value;
+
+        if (!s1 || !s2 || s1 === s2) {
+          compareResult.innerHTML =
+            "❗ Please select two different sections to compare.";
+          return;
+        }
+
+        const data1 = sectionData[s1];
+        const data2 = sectionData[s2];
+
+        compareResult.innerHTML = `
+          <h4>🔍 ${s1} vs ${s2}</h4>
+          <p><strong>${s1}</strong>: ${data1.description}</p>
+          <p><strong>${s2}</strong>: ${data2.description}</p>
+        `;
+
+        const ctxBar = document.getElementById("barChart").getContext("2d");
+        const ctxDonut = document.getElementById("donutChart").getContext("2d");
+        const ctxLine = document.getElementById("lineChart").getContext("2d");
+        const ctxRadar = document.getElementById("radarChart").getContext("2d");
+
+        barChart?.destroy();
+        donutChart?.destroy();
+        lineChart?.destroy();
+        radarChart?.destroy();
+
+        barChart = new Chart(ctxBar, {
+          type: "bar",
+          data: {
+            labels: [s1, s2],
+            datasets: [
+              {
+                label: "Max Deduction (₹)",
+                data: [data1.deduction, data2.deduction],
+                backgroundColor: ["#42a5f5", "#66bb6a"],
+                borderRadius: 10,
+              },
+            ],
+          },
+          options: {
+            plugins: { legend: { display: false } },
+            scales: {
+              y: {
+                beginAtZero: true,
+                ticks: {
+                  callback: (value) => "₹" + value.toLocaleString(),
+                },
+              },
+            },
+          },
+        });
+
+        donutChart = new Chart(ctxDonut, {
+          type: "doughnut",
+          data: {
+            labels: Object.keys(data1.breakdown),
+            datasets: [
+              {
+                data: Object.values(data1.breakdown),
+                backgroundColor: [
+                  "#ff6384",
+                  "#36a2eb",
+                  "#ffcd56",
+                  "#4bc0c0",
+                  "#ba68c8",
+                ],
+              },
+            ],
+          },
+          options: {
+            plugins: {
+              title: {
+                display: true,
+                text: `${s1} Composition`,
+              },
+              legend: { position: "bottom" },
+            },
+          },
+        });
+
+        lineChart = new Chart(ctxLine, {
+          type: "line",
+          data: {
+            labels: ["Year 1", "Year 2", "Year 3", "Year 4", "Year 5"],
+            datasets: [
+              {
+                label: `${s1} Savings`,
+                data: Array.from(
+                  { length: 5 },
+                  (_, i) => data1.deduction * (i + 1)
+                ),
+                borderColor: "#1e88e5",
+                fill: false,
+              },
+              {
+                label: `${s2} Savings`,
+                data: Array.from(
+                  { length: 5 },
+                  (_, i) => data2.deduction * (i + 1)
+                ),
+                borderColor: "#43a047",
+                fill: false,
+              },
+            ],
+          },
+        });
+
+        radarChart = new Chart(ctxRadar, {
+          type: "radar",
+          data: {
+            labels: ["Investment", "Insurance", "Education", "Donation"],
+            datasets: [
+              {
+                label: s1,
+                data: Object.values(data1.categories),
+                backgroundColor: "rgba(33, 150, 243, 0.2)",
+                borderColor: "#2196f3",
+                borderWidth: 2,
+              },
+              {
+                label: s2,
+                data: Object.values(data2.categories),
+                backgroundColor: "rgba(102, 187, 106, 0.2)",
+                borderColor: "#66bb6a",
+                borderWidth: 2,
+              },
+            ],
+          },
+        });
+      }
+    </script>
+  </body>
+</html>

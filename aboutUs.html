@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>About Us | TaxOptimizer</title>
+    <style>
+      body {
+        font-family: "Segoe UI", sans-serif;
+        margin: 0;
+        padding: 0;
+        background: linear-gradient(to bottom right, #e8f5e9, #ffffff);
+        color: #2196ab;
+      }
+
+      header {
+        background-color: #2b8181;
+        padding: 20px;
+        color: white;
+        text-align: center;
+      }
+
+      .container {
+        max-width: 1100px;
+        margin: auto;
+        padding: 40px 20px;
+      }
+
+      .section {
+        margin-bottom: 50px;
+      }
+
+      h2 {
+        font-size: 28px;
+        margin-bottom: 10px;
+        color: #1b5f64;
+      }
+
+      p {
+        font-size: 16px;
+        line-height: 1.8;
+        color: #424242;
+      }
+
+      img {
+        max-width: 100%;
+        border-radius: 12px;
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+        margin: 20px 0;
+      }
+
+      .features {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 30px;
+      }
+
+      .feature-box {
+        background: #f1f8e9;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+      }
+
+      .feature-box h3 {
+        margin-top: 0;
+        color: #1f5c68;
+      }
+
+      footer {
+        background: #247575;
+        color: white;
+        padding: 20px;
+        text-align: center;
+      }
+
+      @media (max-width: 768px) {
+        .features {
+          grid-template-columns: 1fr;
+        }
+      }
+      .head {
+        font: bolder;
+        color: #e9eeef;
+      }
+      .back-button {
+        position: absolute;
+        top: 20px;
+        left: 30px;
+        background-color: #ffffff;
+        color: #216069;
+        border: 2px solid #10616e;
+        border-radius: 8px;
+        padding: 8px 14px;
+        font-size: 14px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.3s ease;
+        z-index: 999;
+      }
+
+      .back-button:hover {
+        background-color: #247681;
+        color: #fff;
+      }
+    </style>
+  </head>
+  <body>
+    <button class="back-button" onclick="location.href='index.html'">
+      ⬅ Back to Home
+    </button>
+    <header>
+      <h1>SaveMyTax</h1>
+      <p class="head">
+        Your smart assistant for maximizing tax savings and making informed
+        financial choices!
+      </p>
+    </header>
+
+    <div class="container">
+      <div class="section">
+        <h2>Who We Are?</h2>
+        <p>
+          At <strong>SaveMyTax</strong>, we're on a mission to simplify the
+          tax-saving journey for every Indian taxpayer. Whether you're a
+          salaried professional, a freelancer, or just trying to make sense of
+          deductions, we've got your back with intuitive tools and AI-driven
+          suggestions.
+        </p>
+        <img
+          src="/SaveMyTax/tax_panning.jpeg"
+          alt="Team working on tax planning"
+        />
+      </div>
+
+      <div class="section">
+        <h2>What We Offer?</h2>
+        <div class="features">
+          <div class="feature-box">
+            <h3>🧮 Tax Calculator</h3>
+            <p>
+              Calculate your taxes under both old and new regimes with clarity
+              and instant comparisons.
+            </p>
+          </div>
+          <div class="feature-box">
+            <h3>💡 Smart Investment Suggestions</h3>
+            <p>
+              Get personalized suggestions based on your income and eligible
+              deduction sections.
+            </p>
+          </div>
+          <div class="feature-box">
+            <h3>📊 Regime Comparison Charts</h3>
+            <p>
+              Visualize which regime works better for you with
+              easy-to-understand bar and donut charts.
+            </p>
+          </div>
+          <div class="feature-box">
+            <h3>📚 Know Your Sections</h3>
+            <p>
+              Get simplified info on sections like 80C, 80D, 80E, 80G and
+              more—without jargon.
+            </p>
+          </div>
+          <div class="feature-box">
+            <h3>🤖 AI Chatbot Assistant</h3>
+            <p>
+              Got questions? Our AI chatbot gives you quick, accurate answers
+              about tax-saving tips, sections, and more.
+            </p>
+          </div>
+          <div class="feature-box">
+            <h3>📄 Export to PDF</h3>
+            <p>
+              Download your calculated summary and investment advice as a
+              professional PDF.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>Why SaveMyTax?</h2>
+        <p>
+          We believe tax planning shouldn't be stressful. With smart automation,
+          easy charts, and clear insights, we make it easier for you to:
+        </p>
+        <ul>
+          <li>💸 Maximize deductions legally</li>
+          <li>🧠 Make informed decisions</li>
+          <li>📈 Save more every financial year</li>
+        </ul>
+        <img
+          src="/SaveMyTax/visuals.webp"
+          alt="Visual of data analytics and tax charts"
+        />
+      </div>
+    </div>
+
+    <footer>&copy; 2025 SaveMyTax. All rights reserved.</footer>
+  </body>
+</html>

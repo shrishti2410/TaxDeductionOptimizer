@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tax Section Graph View</title>
+    <style>
+      /* Same CSS as before – trimmed here for brevity */
+      body {
+        font-family: "Segoe UI", sans-serif;
+        background: #f2f7fb;
+        margin: 0;
+        padding: 30px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      h2 {
+        color: #1e4e69;
+        margin-bottom: 20px;
+      }
+      .graph-container {
+        width: 90%;
+        max-width: 800px;
+        background: white;
+        padding: 25px;
+        border-radius: 16px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
+      }
+      .node-group {
+        margin-bottom: 25px;
+        padding: 15px;
+        border-left: 5px solid #3d9ecb;
+        background: #e9f5fb;
+        border-radius: 10px;
+      }
+      .node-title {
+        font-size: 18px;
+        font-weight: 600;
+        color: #255e73;
+      }
+      .connections {
+        margin-top: 10px;
+        padding-left: 20px;
+      }
+      .connection {
+        margin-bottom: 10px;
+        padding: 10px;
+        background: #fff;
+        border-left: 4px solid #4caf50;
+        border-radius: 6px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+      }
+      .section {
+        font-weight: 500;
+        color: #2e7d32;
+      }
+      .benefit {
+        color: #555;
+        font-size: 14px;
+        margin-top: 4px;
+      }
+      button {
+        margin-top: 6px;
+        font-size: 13px;
+        cursor: pointer;
+        background: #4caf50;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        padding: 5px 10px;
+      }
+      .details {
+        display: none;
+        margin-top: 8px;
+        font-size: 13px;
+        background: #f9f9f9;
+        border-left: 3px solid #2196f3;
+        padding: 8px;
+        border-radius: 5px;
+      }
+      .details a {
+        color: #1e88e5;
+      }
+      .footer {
+        font-size: 13px;
+        margin-top: 20px;
+        color: #999;
+      }
+      .back-button {
+        position: absolute;
+        top: 20px;
+        left: 30px;
+        background-color: #ffffff;
+        color: #216069;
+        border: 2px solid #10616e;
+        border-radius: 8px;
+        padding: 8px 14px;
+        font-size: 14px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.3s ease;
+        z-index: 999;
+      }
+
+      .back-button:hover {
+        background-color: #247681;
+        color: #fff;
+      }
+    </style>
+  </head>
+  <body>
+    <button class="back-button" onclick="location.href='index.html'">
+      ⬅ Back to Home
+    </button>
+    <h2>💡 Tax Saving Dependency View</h2>
+    <div class="graph-container" id="graphView"></div>
+    <div class="footer">💡 Modeled using Adjacency List (JS Object)</div>
+
+    <script>
+      // Formal Adjacency List Model
+      const taxGraph = {
+        "Salary Income": [
+          {
+            section: "Section 80C",
+            benefit: "Investments like PPF, ELSS, Life Insurance",
+            details:
+              "Allows deduction up to ₹1.5L. Eligible investments include Public Provident Fund, Employee Provident Fund, tax-saving FDs, NSC, and life insurance premiums. It's the most commonly used section for salaried individuals. ELSS mutual funds offer market-linked returns with a lock-in of 3 years. Diversifying across instruments under 80C can maximize benefit.",
+            link: "https://www.incometax.gov.in/iec/foportal/help/individual/80c",
+          },
+          {
+            section: "Section 80D",
+            benefit: "Health Insurance Premiums for family",
+            details:
+              "Covers deduction of ₹25,000 for non-senior citizens and ₹50,000 for senior citizens. Applicable to policies for self, spouse, children, and parents. Preventive health check-ups are also included within the limit. It encourages proactive health planning. Premiums paid in modes other than cash are eligible.",
+            link: "https://cleartax.in/s/section-80d-deductions-health-insurance",
+          },
+        ],
+        "Home Loan": [
+          {
+            section: "Section 24(b)",
+            benefit: "Interest on home loan up to ₹2L",
+            details:
+              "Provides tax benefit on interest paid on housing loan for a self-occupied property. The property should be acquired within 5 years from the end of the financial year. Deduction is available only after construction is complete. Pre-construction interest can be claimed in 5 equal installments. It's a major relief for home buyers.",
+            link: "https://www.incometax.gov.in/iec/foportal/help/individual/24b",
+          },
+          {
+            section: "Section 80EEA",
+            benefit: "Extra ₹1.5L deduction for first-time buyers",
+            details:
+              "Only for individuals buying affordable housing (property < ₹45L). The home loan must be sanctioned between specific time periods as per IT rules. This deduction is in addition to Section 24(b). The taxpayer should not own any other residential house on loan sanction date. Helps boost affordable housing sector.",
+            link: "https://cleartax.in/s/section-80eea",
+          },
+        ],
+        "Education Loan": [
+          {
+            section: "Section 80E",
+            benefit: "Interest on education loan",
+            details:
+              "Deduction is available for 8 years from the start of repayment. Covers higher education in India or abroad for self, spouse, or children. No upper limit on interest deduction. The loan must be from a recognized financial or charitable institution. Promotes quality education without financial burden.",
+            link: "https://cleartax.in/s/section-80e",
+          },
+        ],
+        "Medical Expenses": [
+          {
+            section: "Section 80DD",
+            benefit: "For dependent with disability",
+            details:
+              "Provides ₹75,000–₹1.25L deduction depending on severity. Requires a valid medical certificate for the dependent. Covers expenses like rehabilitation, nursing, and maintenance of the disabled person. The dependent must not have claimed 80U themselves. Encourages care and support for dependents with disabilities.",
+            link: "https://cleartax.in/s/section-80dd",
+          },
+          {
+            section: "Section 80U",
+            benefit: "For self with disability",
+            details:
+              "Fixed deduction for resident individuals with a certified disability. No need to show actual expenses incurred. The amount is ₹75,000 for general disability and ₹1.25L for severe disability. Certificate should be from a recognized medical authority. Helps reduce tax liability for differently-abled taxpayers.",
+            link: "https://cleartax.in/s/section-80u",
+          },
+        ],
+        "Retirement Planning": [
+          {
+            section: "Section 80CCD(1B)",
+            benefit: "NPS investment up to ₹50,000",
+            details:
+              "An additional deduction available beyond 80C. Only applicable for Tier I NPS account contributions. Encourages long-term retirement planning with market-linked returns. Contributions are locked till retirement or partial withdrawal conditions. Suitable for individuals planning a secure financial future.",
+            link: "https://cleartax.in/s/section-80ccd",
+          },
+        ],
+        Donations: [
+          {
+            section: "Section 80G",
+            benefit: "Deduction for donations (50–100%)",
+            details:
+              "Donations to approved NGOs or relief funds can be claimed. Cash donations above ₹2,000 not eligible for deduction. Contributions must be backed by receipts and PAN of the donee. Helps encourage social responsibility and philanthropy. Certain donations qualify for 100% deduction without limits.",
+            link: "https://cleartax.in/s/section-80g",
+          },
+        ],
+        "Senior Citizens": [
+          {
+            section: "Section 80TTB",
+            benefit: "Interest income exemption up to ₹50,000",
+            details:
+              "Applies only to senior citizens (60+ years). Covers savings account, FD, and RD interest earned during the year. Deduction is over and above the standard ₹10,000 under 80TTA. Offers relief from tax burden on passive income. Helps secure stable income post-retirement.",
+            link: "https://cleartax.in/s/section-80ttb",
+          },
+          {
+            section: "Section 80D (Senior)",
+            benefit: "Higher health insurance premium deduction",
+            details:
+              "Provides deduction of up to ₹50,000 for medical insurance paid for self or spouse (aged 60+). Includes medical check-up costs up to ₹5,000. Encourages timely health insurance coverage in old age. Payments must be non-cash. Eases medical cost burden for the elderly.",
+            link: "https://cleartax.in/s/section-80d-deductions-health-insurance",
+          },
+          {
+            section: "Section 194P",
+            benefit: "No ITR filing for very senior citizens",
+            details:
+              "If aged 75+ with pension and interest income only, and taxes deducted by banks, no need to file ITR. Bank must be a notified one under this rule. Declaration form must be submitted to the bank. Simplifies compliance for aged individuals. Aims to ease tax process for the elderly.",
+            link: "https://cleartax.in/s/section-194p",
+          },
+        ],
+      };
+
+      // Render Function (Same as before)
+      function renderGraph(graph) {
+        const container = document.getElementById("graphView");
+        container.innerHTML = "";
+
+        for (const [income, dependencies] of Object.entries(graph)) {
+          const group = document.createElement("div");
+          group.className = "node-group";
+
+          const title = document.createElement("div");
+          title.className = "node-title";
+          title.textContent = `💰 ${income}`;
+          group.appendChild(title);
+
+          const connectionList = document.createElement("div");
+          connectionList.className = "connections";
+
+          dependencies.forEach((dep) => {
+            const conn = document.createElement("div");
+            conn.className = "connection";
+
+            const section = document.createElement("div");
+            section.className = "section";
+            section.innerHTML = `➡️ <strong>${dep.section}</strong>`;
+
+            const benefit = document.createElement("div");
+            benefit.className = "benefit";
+            benefit.textContent = dep.benefit;
+
+            const toggle = document.createElement("button");
+            toggle.textContent = "More Info";
+
+            const details = document.createElement("div");
+            details.className = "details";
+            details.innerHTML = `<p>${dep.details}</p><a href="${dep.link}" target="_blank">🔗 View Official Info</a>`;
+
+            toggle.onclick = () => {
+              details.style.display =
+                details.style.display === "none" ? "block" : "none";
+            };
+
+            conn.appendChild(section);
+            conn.appendChild(benefit);
+            conn.appendChild(toggle);
+            conn.appendChild(details);
+            connectionList.appendChild(conn);
+          });
+
+          group.appendChild(connectionList);
+          container.appendChild(group);
+        }
+      }
+
+      renderGraph(taxGraph);
+    </script>
+  </body>
+</html>

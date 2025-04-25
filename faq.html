@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FAQ | SaveMyTax</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: "Poppins", sans-serif;
+        margin: 0;
+        padding: 0;
+        background: #e0f7fa;
+      }
+
+      .output-wrapper {
+        margin: 40px auto;
+        max-width: 900px;
+        padding: 30px;
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+      }
+
+      .faq-title {
+        font-size: 36px;
+        font-weight: 700;
+        color: #00695c;
+        text-align: center;
+        border-bottom: 3px solid #4db6ac;
+        padding-bottom: 10px;
+      }
+
+      .faq-section {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      .faq-item {
+        background: #e0f2f1;
+        border-left: 5px solid #26a69a;
+        padding: 20px;
+        border-radius: 12px;
+        transition: all 0.3s ease;
+      }
+
+      .faq-item:hover {
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+      }
+
+      .faq-item button {
+        width: 100%;
+        padding: 15px 20px;
+        background-color: #cae4d7;
+        color: rgb(18, 84, 74);
+        font-size: 20px;
+        font-weight: 600;
+        text-align: left;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+
+      .faq-item button:hover {
+        background-color: #85b4ac;
+      }
+
+      .faq-item div {
+        background-color: #ffffff;
+        padding: 15px 20px;
+        margin-top: 10px;
+        border-radius: 8px;
+        display: none;
+        color: #333;
+        font-size: 17px;
+      }
+
+      footer {
+        background: #00695c;
+        color: white;
+        padding: 20px;
+        text-align: center;
+        font-size: 16px;
+      }
+
+      @media (max-width: 768px) {
+        .output-wrapper {
+          margin: 20px;
+          padding: 20px;
+        }
+
+        .faq-title {
+          font-size: 28px;
+        }
+
+        .faq-item button {
+          font-size: 18px;
+        }
+      }
+      .back-button {
+        position: absolute;
+        top: 20px;
+        left: 30px;
+        background-color: #ffffff;
+        color: #216069;
+        border: 2px solid #10616e;
+        border-radius: 8px;
+        padding: 8px 14px;
+        font-size: 14px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.3s ease;
+        z-index: 999;
+      }
+
+      .back-button:hover {
+        background-color: #247681;
+        color: #fff;
+      }
+    </style>
+  </head>
+  <body>
+    <button class="back-button" onclick="location.href='index.html'">
+      ⬅ Back to Home
+    </button>
+    <div class="output-wrapper">
+      <div class="faq-title">Frequently Asked Questions</div>
+      <div class="faq-section">
+        <div class="faq-item">
+          <button onclick="toggleAnswer(1)">
+            What is SaveMyTax and how does it work?
+          </button>
+          <div id="answer1">
+            <p>
+              SaveMyTax is a platform that helps Indian taxpayers optimize their
+              taxes through an AI-driven tax calculator and smart deduction
+              suggestions. It allows you to calculate taxes under both the old
+              and new tax regimes and offers personalized tips for maximizing
+              deductions.
+            </p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button onclick="toggleAnswer(2)">
+            How do I calculate my taxes with SaveMyTax?
+          </button>
+          <div id="answer2">
+            <p>
+              Simply enter your income details, eligible deductions, and any
+              applicable exemptions. SaveMyTax will calculate your taxes under
+              both old and new regimes and help you compare which regime
+              provides the most savings.
+            </p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button onclick="toggleAnswer(4)">
+            Can freelancers and self-employed individuals use SaveMyTax?
+          </button>
+          <div id="answer4">
+            <p>
+              Yes, SaveMyTax is designed for all taxpayers, including
+              freelancers and self-employed individuals. The platform helps you
+              calculate taxes based on various income sources and offers
+              suggestions on deductions that apply to your situation.
+            </p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button onclick="toggleAnswer(5)">
+            What are the available tax-saving deductions in SaveMyTax?
+          </button>
+          <div id="answer5">
+            <p>
+              SaveMyTax provides suggestions based on a variety of deductions
+              such as Section 80C, 80D, 80G, and others. It helps you maximize
+              your savings by ensuring you claim all eligible deductions under
+              the law.
+            </p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button onclick="toggleAnswer(6)">
+            How do I get suggestions on investments for tax savings?
+          </button>
+          <div id="answer6">
+            <p>
+              SaveMyTax offers personalized investment suggestions based on your
+              income, tax regime, and eligible deductions. These suggestions
+              include options like PPF, ELSS, NPS, and more, helping you
+              maximize your savings.
+            </p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button onclick="toggleAnswer(7)">
+            Can I download my tax summary from SaveMyTax?
+          </button>
+          <div id="answer7">
+            <p>
+              Yes, you can export your tax summary and investment suggestions to
+              a PDF document for easy reference and record-keeping.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer>&copy; 2025 SaveMyTax. All rights reserved.</footer>
+
+    <script>
+      function toggleAnswer(id) {
+        const answerDiv = document.getElementById("answer" + id);
+        answerDiv.style.display =
+          answerDiv.style.display === "block" ? "none" : "block";
+      }
+    </script>
+  </body>
+</html>
